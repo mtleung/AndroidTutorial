@@ -2,7 +2,7 @@
 Sample Android projects, each introducing a new library/feature/concept
 
 ### 01 - Vanilla
-Core project introducing [Retrofit](https://square.github.io/retrofit/) for interacting with HTTP API
+Core project introducing [Retrofit](https://square.github.io/retrofit/) for interacting with HTTP API  
 Subsequent projects build on this
 
 ### 02 - Model View Presenter 
