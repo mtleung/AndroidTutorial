@@ -1,8 +1,11 @@
 package com.mtleung.demoretrofitvanilla;
 
 import android.app.Application;
+import android.content.Context;
+import android.content.SharedPreferences;
 
 import com.mtleung.demoretrofitvanilla.api.JSONPlaceholderService;
+import com.mtleung.demoretrofitvanilla.utilities.SharedPrefHelper;
 import com.squareup.leakcanary.LeakCanary;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
@@ -13,7 +16,8 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class MainApplication extends Application {
 
-    JSONPlaceholderService apiService;
+    private JSONPlaceholderService apiService;
+    private SharedPrefHelper sharedPrefHelper;
 
     @Override
     public void onCreate() {
@@ -33,9 +37,15 @@ public class MainApplication extends Application {
                 .build();
         apiService = retrofit.create(JSONPlaceholderService.class);
 
+        // Init shared preferences
+        sharedPrefHelper = SharedPrefHelper.getInstance(this);
     }
 
     public JSONPlaceholderService getApiService() {
         return apiService;
+    }
+
+    public SharedPrefHelper getSharedPrefHelper() {
+        return sharedPrefHelper;
     }
 }
