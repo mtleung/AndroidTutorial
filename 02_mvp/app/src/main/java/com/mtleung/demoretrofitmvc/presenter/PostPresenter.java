@@ -3,8 +3,9 @@ package com.mtleung.demoretrofitmvc.presenter;
 import android.util.Log;
 
 import com.mtleung.demoretrofitmvc.api.JSONPlaceholderService;
-import com.mtleung.demoretrofitmvc.interfaces.PostInterface.PostPresenterIntf;
+import com.mtleung.demoretrofitmvc.interfaces.DatabaseInterface.LoggedInDatabase;
 import com.mtleung.demoretrofitmvc.interfaces.PostInterface.PostPresenterCallback;
+import com.mtleung.demoretrofitmvc.interfaces.PostInterface.PostPresenterIntf;
 import com.mtleung.demoretrofitmvc.interfaces.PostInterface.PostViewIntf;
 import com.mtleung.demoretrofitmvc.model.Post;
 import com.mtleung.demoretrofitmvc.model.presentation.PostPresentationModel;
@@ -20,8 +21,11 @@ import static android.content.ContentValues.TAG;
 public class PostPresenter extends BasePresenter<PostPresentationModel, PostViewIntf> implements
         PostPresenterIntf, PostPresenterCallback{
 
-    public PostPresenter (JSONPlaceholderService apiService) {
+    LoggedInDatabase database;
+
+    public PostPresenter (LoggedInDatabase database, JSONPlaceholderService apiService) {
         super.setModel(new PostPresentationModel(this, apiService));
+        this.database = database;
     }
 
     @Override
@@ -53,5 +57,11 @@ public class PostPresenter extends BasePresenter<PostPresentationModel, PostView
     @Override
     public void onStart() {
         Log.d(TAG, "onStart");
+    }
+
+    @Override
+    public void onLogout() {
+        database.removeUsername();
+        view().navigateMainActivity();
     }
 }

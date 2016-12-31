@@ -3,6 +3,9 @@
     <string name="loading">Loading</string>
     <string name="main.username.title">Username</string>
     <string name="main.username.hint">Enter your name here</string>
+    <string name="main.password.hint">Enter your password here</string>
+    <string name="main.username.error">Invalid username</string>
+    <string name="main.password.error">Invalid password</string>
     <string name="submit">Submit</string>
     <string name="logout">Logout</string>
 </resources>

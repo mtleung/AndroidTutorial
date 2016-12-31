@@ -18,10 +18,22 @@
         android:layout_height="wrap_content"
         android:hint="@string/main.username.hint"
         android:maxLines="1" />
+    <EditText
+        android:id="@+id/main.password"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:inputType="textPassword"
+        android:hint="@string/main.password.hint"
+        android:maxLines="1" />
     <Button
         android:id="@+id/main.submit"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/submit"/>
+    <ProgressBar
+        android:id="@+id/main.loading"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="invisible"/>
 
 </LinearLayout>

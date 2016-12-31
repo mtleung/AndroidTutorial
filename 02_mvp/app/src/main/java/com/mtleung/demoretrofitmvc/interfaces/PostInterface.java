@@ -18,7 +18,8 @@ public class PostInterface {
         void showToast(String message);
 
         // Navigation methods
-
+        void onLogoutClicked();
+        void navigateMainActivity();
     }
 
     public interface PostPresenterIntf {
@@ -28,6 +29,7 @@ public class PostInterface {
         void onStart();
 
         // Input event methods
+        void onLogout();
     }
 
     public interface PostModelIntf {
