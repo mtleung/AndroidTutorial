@@ -3,8 +3,9 @@ package com.mtleung.demoretrofitmvc.presenter;
 import android.util.Log;
 
 import com.mtleung.demoretrofitmvc.api.JSONPlaceholderService;
-import com.mtleung.demoretrofitmvc.interfaces.PostInterface.PostPresenterIntf;
+import com.mtleung.demoretrofitmvc.interfaces.DatabaseInterface.LoggedInDatabase;
 import com.mtleung.demoretrofitmvc.interfaces.PostInterface.PostPresenterCallback;
+import com.mtleung.demoretrofitmvc.interfaces.PostInterface.PostPresenterIntf;
 import com.mtleung.demoretrofitmvc.interfaces.PostInterface.PostViewIntf;
 import com.mtleung.demoretrofitmvc.model.Post;
 import com.mtleung.demoretrofitmvc.model.presentation.PostPresentationModel;
@@ -19,13 +20,17 @@ import static android.content.ContentValues.TAG;
 
 public class PostPresenter extends BasePresenter<PostPresentationModel, PostViewIntf> implements
         PostPresenterIntf, PostPresenterCallback{
+    private final String TAG = PostPresenter.class.getSimpleName();
 
-    public PostPresenter (JSONPlaceholderService apiService) {
-        super.setModel(new PostPresentationModel(this, apiService));
+    LoggedInDatabase database;
+
+    public PostPresenter (LoggedInDatabase database) {
+        this.database = database;
     }
 
     @Override
     protected void updateView() {
+        Log.d(TAG, "updateView");
         // Business logic
         view().showLoading();
         if (model.shouldFetchData()) {
@@ -37,12 +42,17 @@ public class PostPresenter extends BasePresenter<PostPresentationModel, PostView
 
     @Override
     public void bindView(PostViewIntf view) {
+        Log.d(TAG, "bindView");
         super.bindView(view);
     }
 
     @Override
     public void onFetchCompleted(List<Post> posts) {
-        view().showPosts(posts);
+        Log.d(TAG, "onFetchCompleted");
+        if (view() != null) {
+            view().showPosts(posts);
+        }
+
     }
 
     @Override
@@ -53,5 +63,11 @@ public class PostPresenter extends BasePresenter<PostPresentationModel, PostView
     @Override
     public void onStart() {
         Log.d(TAG, "onStart");
+    }
+
+    @Override
+    public void onLogout() {
+        database.removeUsername();
+        view().navigateMainActivity();
     }
 }

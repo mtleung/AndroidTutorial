@@ -21,8 +21,7 @@ public class CommentPresenter extends BasePresenter<CommentPresentationModel, Co
 
     private int postId;
 
-    public CommentPresenter(JSONPlaceholderService apiService) {
-        super.setModel(new CommentPresentationModel(this, apiService));
+    public CommentPresenter() {
     }
 
     @Override

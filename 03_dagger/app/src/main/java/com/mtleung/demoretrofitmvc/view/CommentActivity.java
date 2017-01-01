@@ -9,15 +9,21 @@ import android.support.v7.widget.RecyclerView;
 import android.widget.Toast;
 import android.widget.ViewAnimator;
 
+import com.mtleung.demoretrofitmvc.MainApplication;
 import com.mtleung.demoretrofitmvc.PresenterManager;
 import com.mtleung.demoretrofitmvc.R;
 import com.mtleung.demoretrofitmvc.adapter.CommentAdapter;
 import com.mtleung.demoretrofitmvc.api.ApiManager;
+import com.mtleung.demoretrofitmvc.api.JSONPlaceholderService;
 import com.mtleung.demoretrofitmvc.interfaces.CommentInterface.CommentViewIntf;
 import com.mtleung.demoretrofitmvc.model.Comment;
+import com.mtleung.demoretrofitmvc.modules.CommentActivityModule;
+import com.mtleung.demoretrofitmvc.modules.MainActivityModule;
 import com.mtleung.demoretrofitmvc.presenter.CommentPresenter;
 
 import java.util.List;
+
+import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -33,25 +39,34 @@ public class CommentActivity extends AppCompatActivity implements CommentViewInt
     private final int POSITION_LIST = 0;
     private final int POSITION_LOADING = 1;
 
-    private CommentAdapter adapter;
-    private CommentPresenter presenter;
+    @Inject CommentAdapter adapter;
+    @Inject CommentPresenter presenter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_comment);
         ButterKnife.bind(this);
+        // ((MainApplication) getApplication()).getNetComponent().inject(this);
 
         if (savedInstanceState == null) {
-            presenter = new CommentPresenter(ApiManager.getInstance().getApiService());
+            // presenter = new CommentPresenter(jsonPlaceholderService);
+            setupComponent();
         } else {
             presenter = PresenterManager.getInstance().restorePresenter(savedInstanceState);
         }
 
         RecyclerView listView = (RecyclerView) animator.getChildAt(POSITION_LIST);
         listView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
-        adapter = new CommentAdapter();
         listView.setAdapter(adapter);
+    }
+
+    private void setupComponent() {
+        MainApplication.get(this)
+                .getAppComponent()
+                .getCommentComponent(new CommentActivityModule(this))
+                .inject(this);
     }
 
     @Override
